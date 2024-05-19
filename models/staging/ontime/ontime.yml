@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: ontime
+    schema: action_ontime_dbo
+    tables:
+      - name: customers
+      - name: destinations
+      - name: invoices
+      - name: pricesets
+      - name: tracking
+      - name: trackingmodifiers
+      - name: users
+      - name: vehicletype
+
+      
+
