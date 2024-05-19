@@ -1,3 +1,3 @@
 SELECT
     *
-FROM {{ source('quickbooks','invoice')}}
+FROM {{ source('quickbooks','payment')}}
