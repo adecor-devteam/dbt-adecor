@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: stripe
+    schema: action_stripe
+    tables:
+      - name: charge
+      - name: customer
+
+      
+

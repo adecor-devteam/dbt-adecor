@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: quickbooks
+    schema: action_quickbooks
+    tables:
+      - name: invoice
+      - name: payment
+      - name: item
+      - name: customer
+
+      
+
