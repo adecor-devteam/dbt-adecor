@@ -21,4 +21,4 @@ INNER JOIN {{ ref('ontime_pricesets') }} AS ps ON t.priceset = ps.id
 WHERE u.email ILIKE '%@%\.%'
 GROUP BY
     t.orderid, d1.companyname, d2.companyname, ps.urgency, t.whendroppedoff, u.firstname, u.lastname
-ORDER BY t.orderid DESC;
+ORDER BY t.orderid DESC
