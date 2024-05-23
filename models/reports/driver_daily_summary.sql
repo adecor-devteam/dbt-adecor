@@ -1,6 +1,6 @@
 SELECT
     u.firstname || ' ' || u.lastname AS driver_name,
-    u.id as driver_id,
+    LOWER(u.id) as driver_id,
     u.email AS driver_email,
     TO_CHAR(COUNT(*), 'FM999999') AS delivery_count,
     TO_CHAR(SUM(t.mileage), 'FM999999999.00') AS total_km_driven,

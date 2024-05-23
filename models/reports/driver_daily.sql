@@ -1,6 +1,6 @@
 SELECT
     t.orderid AS tracking_number,
-    u.id as driver_id,
+    LOWER(u.id) as driver_id,
     d1.companyname AS pickup_location,
     d2.companyname AS dropoff_location,
     ps.urgency AS price_set,
@@ -21,5 +21,5 @@ INNER JOIN {{ ref('ontime_destinations') }} AS d2 ON t.dto = d2.id
 INNER JOIN {{ ref('ontime_pricesets') }} AS ps ON t.priceset = ps.id
 WHERE u.email ILIKE '%@%\.%'
 GROUP BY
-    t.orderid, d1.companyname, d2.companyname, ps.urgency, t.whendroppedoff, u.firstname, u.lastname
+    t.orderid, d1.companyname, d2.companyname, ps.urgency, t.whendroppedoff, u.firstname, u.lastname, u.id
 ORDER BY t.orderid DESC
