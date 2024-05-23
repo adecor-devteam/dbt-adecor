@@ -1,5 +1,6 @@
 SELECT
     t.orderid AS tracking_number,
+    u.id as driver_id,
     d1.companyname AS pickup_location,
     d2.companyname AS dropoff_location,
     ps.urgency AS price_set,
