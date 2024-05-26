@@ -12,7 +12,7 @@ SELECT
             THEN t.totalcost * 0.79 
             ELSE t.totalcost * 0.69 
         END), 'FM$999,999,999.00') AS total_compensation,
-    TO_CHAR((t.whendroppedoff AT TIME ZONE 'UTC' AT TIME ZONE 'MST'), 'Month DD, YYYY, HH12:MI:SS AM') AS delivery_date,
+    TO_CHAR((t.whendroppedoff AT TIME ZONE 'UTC' AT TIME ZONE 'MST'), 'Month DD, YYYY') AS delivery_date,
     (t.whendroppedoff AT TIME ZONE 'UTC' AT TIME ZONE 'MST')::date AS entry_date_mst
 FROM {{ ref('ontime_tracking') }} AS t
 INNER JOIN {{ ref('ontime_users') }} AS u ON t.droppedoffbydriverid = u.id
