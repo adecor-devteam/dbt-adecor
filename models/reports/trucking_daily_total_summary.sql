@@ -12,6 +12,11 @@ SELECT
                 THEN t.totalcost * 0.79 
                 ELSE t.totalcost * 0.69 
                 END),2), 'FM$999999999.00') AS "net",
+    ROUND(SUM(t.totalcost) - SUM(CASE 
+                WHEN ps.urgency ILIKE '%Hotshot%' OR ps.urgency ILIKE '%Hot shot%' 
+                THEN t.totalcost * 0.79 
+                ELSE t.totalcost * 0.69 
+                END),2) AS net_number,                
     (t.whendroppedoff AT TIME ZONE 'UTC' AT TIME ZONE 'MST')::date AS entry_date_mst
 FROM {{ ref('ontime_tracking') }} AS t
 INNER JOIN {{ ref('ontime_users') }} AS u ON t.droppedoffbydriverid = u.id
