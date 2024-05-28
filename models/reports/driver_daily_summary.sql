@@ -7,13 +7,13 @@ SELECT
     TO_CHAR(ROUND(SUM(t.totalcost),2), 'FM$999,999,999.00') AS total_cost,
     TO_CHAR(ROUND(SUM(CASE 
                 WHEN ps.urgency ILIKE '%Hotshot%' OR ps.urgency ILIKE '%Hot shot%' 
-                THEN t.totalcost * 0.79 
-                ELSE t.totalcost * 0.69 
+                THEN ROUND(t.totalcost * 0.79,2) 
+                ELSE ROUND(t.totalcost * 0.69,2) 
               END),2), 'FM$999,999,999.00') AS total_days_compensation,
     ROUND(SUM(CASE 
             WHEN ps.urgency ILIKE '%Hotshot%' OR ps.urgency ILIKE '%Hot shot%' 
-            THEN t.totalcost * 0.79 
-            ELSE t.totalcost * 0.69 
+            THEN ROUND(t.totalcost * 0.79,2) 
+            ELSE ROUND(t.totalcost * 0.69,2) 
             END),2) AS total_compensation_amount,
     (t.WhenDroppedOff AT TIME ZONE 'UTC' AT TIME ZONE 'MST')::date AS entry_date_mst
 FROM {{ ref('ontime_tracking') }} AS t
