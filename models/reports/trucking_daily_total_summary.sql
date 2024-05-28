@@ -1,7 +1,9 @@
 SELECT
     TO_CHAR(COUNT(*), 'FM999999') AS total_delivery_count,
+    COUNT(*) AS total_delivery_count_num,
     TO_CHAR(ROUND(SUM(t.mileage),2), 'FM999999999.00') AS total_km_driven,
     TO_CHAR(ROUND(SUM(t.totalcost),2), 'FM$999999999.00') AS total_cost,
+    ROUND(SUM(t.totalcost),2) AS total_cost_num,
     TO_CHAR(ROUND(SUM(CASE 
                 WHEN ps.urgency ILIKE '%Hotshot%' OR ps.urgency ILIKE '%Hot shot%' 
                 THEN t.totalcost * 0.79 
