@@ -22,4 +22,4 @@ INNER JOIN {{ ref('ontime_pricesets') }} AS ps ON t.PriceSet = ps.ID
 WHERE u.email ILIKE '%@%\.%' and u.firstname ~ '^(0[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-9]{2}) '
 GROUP BY driver_name, LOWER(u.id), u.email, (t.WhenDroppedOff AT TIME ZONE 'UTC' AT TIME ZONE 'MST')::date
 ORDER BY
-    entry_date_mst
+    entry_date_mst, driver_name
