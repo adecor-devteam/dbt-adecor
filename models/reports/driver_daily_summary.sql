@@ -2,8 +2,8 @@ SELECT
     u.firstname || ' ' || u.lastname AS driver_name,
     LOWER(u.id) as driver_id,
     u.email AS driver_email,
-    TO_CHAR(COUNT(*), 'FM999999') AS delivery_count,
-    TO_CHAR(ROUND(SUM(t.mileage),2), 'FM999999999.00') AS total_km_driven,
+    TO_CHAR(COUNT(*), 'FM999,999,999') AS delivery_count,
+    TO_CHAR(ROUND(SUM(t.mileage),2), 'FM999,999,999.00') AS total_km_driven,
     TO_CHAR(ROUND(SUM(t.totalcost),2), 'FM$999,999,999.00') AS total_cost,
     TO_CHAR(ROUND(SUM(CASE 
                 WHEN ps.urgency ILIKE '%Hotshot%' OR ps.urgency ILIKE '%Hot shot%' 

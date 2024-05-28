@@ -4,7 +4,7 @@ SELECT
     d1.companyname AS pickup_location,
     d2.companyname AS dropoff_location,
     ps.urgency AS price_set,
-    TO_CHAR(ROUND(SUM(t.mileage),2), 'FM999999999.00') AS total_km_driven,
+    TO_CHAR(ROUND(SUM(t.mileage),2), 'FM999,999,999.00') AS total_km_driven,
     TO_CHAR(ROUND(SUM(t.totalcost),2), 'FM$999,999,999.00') AS total_cost,
     TO_CHAR(ROUND(SUM(
         CASE 

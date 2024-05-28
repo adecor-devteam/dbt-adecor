@@ -1,19 +1,19 @@
 SELECT
-    TO_CHAR(COUNT(*), 'FM999999') AS total_delivery_count,
+    TO_CHAR(COUNT(*), 'FM999,999,999') AS total_delivery_count,
     COUNT(*) AS total_delivery_count_num,
-    TO_CHAR(ROUND(SUM(t.mileage),2), 'FM999999999.00') AS total_km_driven,
-    TO_CHAR(ROUND(SUM(t.totalcost),2), 'FM$999999999.00') AS total_cost,
+    TO_CHAR(ROUND(SUM(t.mileage),2), 'FM999,999,999.00') AS total_km_driven,
+    TO_CHAR(ROUND(SUM(t.totalcost),2), 'FM$999,999,999.00') AS total_cost,
     ROUND(SUM(t.totalcost),2) AS total_cost_num,
     TO_CHAR(ROUND(SUM(CASE 
                 WHEN ps.urgency ILIKE '%Hotshot%' OR ps.urgency ILIKE '%Hot shot%' 
                 THEN ROUND(t.totalcost * 0.79,2) 
                 ELSE ROUND(t.totalcost * 0.69,2) 
-                END),2), 'FM$999999999.00') AS total_compensation,
+                END),2), 'FM$999,999,999.00') AS total_compensation,
     TO_CHAR(ROUND(SUM(t.totalcost) - SUM(CASE 
                 WHEN ps.urgency ILIKE '%Hotshot%' OR ps.urgency ILIKE '%Hot shot%' 
                 THEN ROUND(t.totalcost * 0.79,2) 
                 ELSE ROUND(t.totalcost * 0.69,2) 
-                END),2), 'FM$999999999.00') AS "net",
+                END),2), 'FM$999,999,999.00') AS "net",
     ROUND(SUM(t.totalcost) - SUM(CASE 
                 WHEN ps.urgency ILIKE '%Hotshot%' OR ps.urgency ILIKE '%Hot shot%' 
                 THEN ROUND(t.totalcost * 0.79,2) 
