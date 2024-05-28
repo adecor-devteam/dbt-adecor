@@ -15,4 +15,4 @@ FROM {{ ref('ontime_tracking') }} AS t
 INNER JOIN {{ ref('ontime_users') }} AS u ON t.droppedoffbydriverid = u.id
 INNER JOIN {{ ref('ontime_pricesets') }} AS ps ON t.priceset = ps.id
 WHERE u.firstname ~ '^(0[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-9]{2}) '
-GROUP BY u.firstname, u.lastname, u.id, (t.whendroppedoff AT TIME ZONE 'UTC' AT TIME ZONE 'MST')::date, t.whendroppedoff
+GROUP BY u.firstname, u.lastname, LOWER(u.id), (t.whendroppedoff AT TIME ZONE 'UTC' AT TIME ZONE 'MST')::date

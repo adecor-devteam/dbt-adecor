@@ -21,5 +21,5 @@ INNER JOIN {{ ref('ontime_destinations') }} AS d2 ON t.dto = d2.id
 INNER JOIN {{ ref('ontime_pricesets') }} AS ps ON t.priceset = ps.id
 WHERE u.email ILIKE '%@%\.%'
 GROUP BY
-    t.orderid, d1.companyname, d2.companyname, ps.urgency, t.whendroppedoff, u.firstname, u.lastname, u.id
+    t.orderid, d1.companyname, d2.companyname, ps.urgency, (t.whendroppedoff AT TIME ZONE 'UTC' AT TIME ZONE 'MST')::date, LOWER(u.id)
 ORDER BY t.orderid DESC

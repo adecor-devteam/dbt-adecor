@@ -20,6 +20,6 @@ FROM {{ ref('ontime_tracking') }} AS t
 INNER JOIN {{ ref('ontime_users') }} AS u ON t.droppedOffByDriverID = u.ID
 INNER JOIN {{ ref('ontime_pricesets') }} AS ps ON t.PriceSet = ps.ID
 WHERE u.email ILIKE '%@%\.%'
-GROUP BY driver_name, driver_id, driver_email, (t.WhenDroppedOff AT TIME ZONE 'UTC' AT TIME ZONE 'MST')::date
+GROUP BY driver_name, LOWER(u.id), u.email, (t.WhenDroppedOff AT TIME ZONE 'UTC' AT TIME ZONE 'MST')::date
 ORDER BY
     entry_date_mst
