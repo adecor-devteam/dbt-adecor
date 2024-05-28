@@ -19,7 +19,7 @@ INNER JOIN {{ ref('ontime_users') }} AS u ON t.droppedoffbydriverid = u.id
 INNER JOIN {{ ref('ontime_destinations') }} AS d1 ON t.dfrom = d1.id
 INNER JOIN {{ ref('ontime_destinations') }} AS d2 ON t.dto = d2.id
 INNER JOIN {{ ref('ontime_pricesets') }} AS ps ON t.priceset = ps.id
-WHERE u.email ILIKE '%@%\.%' and u.firstname ~ '^(0[1-9]|[1-9][0-9]|1[0-9]{2}|2[0-9]{2}) '
+WHERE u.email ILIKE '%@%\.%'
 GROUP BY
     t.orderid, d1.companyname, d2.companyname, ps.urgency, (t.whendroppedoff AT TIME ZONE 'UTC' AT TIME ZONE 'MST')::date, LOWER(u.id), TO_CHAR((t.whendroppedoff AT TIME ZONE 'UTC' AT TIME ZONE 'MST'), 'Month DD, YYYY')
 ORDER BY t.orderid DESC
