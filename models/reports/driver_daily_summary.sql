@@ -1,5 +1,5 @@
 SELECT
-    u.firstname || ' ' || u.lastname AS driver_name,
+    u.firstname || ' ' || regexp_replace(u.lastname, '\s*\([^()]*\)', '', 'g') AS driver_name,
     LOWER(u.id) as driver_id,
     u.email AS driver_email,
     TO_CHAR(COUNT(*), 'FM999,999,999') AS delivery_count,

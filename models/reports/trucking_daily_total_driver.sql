@@ -1,5 +1,5 @@
 SELECT
-    u.firstname || ' ' || u.lastname AS driver_name,
+    u.firstname || ' ' || regexp_replace(u.lastname, '\s*\([^()]*\)', '', 'g') AS driver_name,
     LOWER(u.id) as driver_id,
     TO_CHAR(COUNT(*), 'FM999,999,999') AS total_delivery_count,
     TO_CHAR(ROUND(SUM(t.mileage),2), 'FM999,999,999.00') AS total_km_driven,
