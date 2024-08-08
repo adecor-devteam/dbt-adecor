@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: arms
+    schema: public
+    tables:
+      - name: customer_details
+      - name: invoice_tracking
+      - name: invoice_email_tracking
+
+      
+
