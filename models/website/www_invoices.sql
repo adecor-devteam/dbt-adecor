@@ -7,7 +7,7 @@ SELECT
     iit.quickbooks_total as quickbooks_total,
     iit.qb_invoice_status as processed_in_qb,
     CASE    
-        WHEN iit.balance > 0 THEN iit.days_since_creation
+        WHEN iit.quickbooks_balance > 0 THEN iit.days_since_creation
         ELSE 0
     END AS invoice_status
 FROM {{ ref('interim_invoice_total') }} iit
