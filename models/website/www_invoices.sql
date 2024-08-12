@@ -9,5 +9,6 @@ SELECT
     CASE    
         WHEN iit.quickbooks_balance > 0 THEN iit.days_since_creation
         ELSE 0
-    END AS invoice_status
+    END AS invoice_status,
+    iit.delivered_email_count as email_status
 FROM {{ ref('interim_invoice_total') }} iit

@@ -7,9 +7,7 @@ SELECT DISTINCT ON	(oi.invoicenumber)
 		ROUND(qi.total_amount,2) as quickbooks_total,
 		EXTRACT(DAY FROM NOW() - it.qb_invoice_created_at) AS days_since_creation,
 		qi.balance as quickbooks_balance,
-		iet.pdf_sendgrid_messageid as sendgrid_messageid,
-		aeaf.status,
-		aeaf.email,
+		count(distinct(iet.pdf_sendgrid_messageid)) as delivered_email_count,
 		COALESCE(cd.gst, 5.0) AS gst,
 		COALESCE(cd.discount, 0) AS discount,
         sum(ROUND(ot.totalcost,2)) AS orders_total
@@ -20,7 +18,7 @@ from  {{ ref('ontime_invoices_orders') }}  oi
 		left join {{ source('arms','customer_details')}} cd on (cd.ontime_customerid = oi.customerid)
 		left join {{ ref('quickbooks_invoice') }} qi on ( oi.invoicenumber::TEXT = qi.doc_number)
 		left join invoice_email_tracking iet on ( iet.invoiceid = oi.invoicenumber )
-		left join arms_email_activity_feed aeaf on  (aeaf.batch_message_id = iet.pdf_sendgrid_messageid)
+		left join arms_email_activity_feed aeaf on ( ( aeaf.batch_message_id = iet.pdf_sendgrid_messageid) and aeaf.status='delivered' )
 group by 	oi.invoicenumber, 
 			oi.invoicedate, 
 			it.qb_invoice_created_at, 
@@ -29,13 +27,6 @@ group by 	oi.invoicenumber,
 			cd.discount, 
 			it.qb_invoice_status, 
 			qi.total_amount, 
-			qi.balance, 
-			iet.pdf_sendgrid_messageid,
-			aeaf.status,
-			aeaf.email,
-			iet.id,
-			aeaf.creation_date
+			qi.balance 
 order by 
-			oi.invoicenumber, 
-			iet.id desc, 
-			aeaf.creation_date desc
+			oi.invoicenumber
