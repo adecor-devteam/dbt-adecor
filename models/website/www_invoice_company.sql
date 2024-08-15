@@ -1,0 +1,8 @@
+-- Invoices Table (Company View)
+-- Account Number - (ARMS Company ID)
+-- Company Name - (ontime_customers)
+-- Unpaid Invoices - (quickbooks_invoice) If Balance > 0
+-- Under 30 Days - (quickbooks_invoice) If Balance > 0 & Created Date < 30 days
+-- 31-60 Days - (quickbooks_invoice) If Balance > 0 & Created Date > 30 days & < 60 days
+-- 61-90 Days - (quickbooks_invoice) If Balance > 0 & Created Date > 60 days and < 90 days
+-- Over 90 Days - (quickbooks_invoice) If Balance > 0 & Created Date > 90 days

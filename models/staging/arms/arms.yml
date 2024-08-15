@@ -5,6 +5,7 @@ sources:
     schema: public
     tables:
       - name: customer_details
+      - name: customer_details_defaults
       - name: invoice_tracking
       - name: invoice_email_tracking
 
