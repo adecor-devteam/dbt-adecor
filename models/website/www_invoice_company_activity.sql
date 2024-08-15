@@ -10,4 +10,26 @@
 -- Total Owing - (quickbooks_invoice)
 -- Last Updated - This is the last time the invoice was processed so I believe you can use the qb_invoice_created_at column
 
-
+SELECT
+	iit.invoicenumber as invoice_number,
+    iit.company as Company,
+    CASE    
+        WHEN iit.quickbooks_balance > 0 THEN 'Unpaid'
+        ELSE 'Paid'
+    END AS payment_status,
+    iit.delivered_email_count as emails_sent,
+    case 
+    	when iit.quickbooks_balance > 0 then iit.days_since_creation
+    	else 0
+    end as invoice_status,
+    ROUND((iit.orders_total - iit.orders_total * iit.discount/100),2) + ROUND(ROUND((iit.orders_total - iit.orders_total * iit.discount/100),2) * iit.gst / 100,2) as invoice_amount,
+    case 
+    	when (iit.quickbooks_balance = 0 and iit.reward_air_miles = true) then TRUNC((ROUND((iit.orders_total - iit.orders_total * iit.discount/100),2) + ROUND(ROUND((iit.orders_total - iit.orders_total * iit.discount/100),2) * iit.gst / 100,2)) * 0.025)
+    	else 0
+    end as rewards,
+    iit.discount as discount,
+    iit.gst as gst,
+    iit.convenience_fee as convenience_fee,
+    iit.quickbooks_balance as total_owing,
+    iit.qb_invoice_created_at as last_updated
+FROM {{ ref('interim_invoice_total') }} iit 
