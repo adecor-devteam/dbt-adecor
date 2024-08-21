@@ -9,7 +9,7 @@
 -- Unpaid Invoices (Total) - Total Number of Unpaid Invoices (whole number)
 -- Balance Due - (quickbooks_invoice) Sum of all unpaid invoices
 
-SELECT 	oc.company as company_name,
+SELECT 	oc.company as account_name,
 		cd.id as account_number,
 		COALESCE(cd.gst,cdd.gst) as gst,
 		coalesce(cd.convenience_fee, cdd.convenience_fee) as convenience_fee,
