@@ -7,12 +7,14 @@ SELECT DISTINCT ON	(oi.invoicenumber)
 		ROUND(qi.total_amount,2) as quickbooks_total,
 		EXTRACT(DAY FROM NOW() - it.qb_invoice_created_at) AS days_since_creation,
 		qi.balance as quickbooks_balance,
+		qi.transaction_date as transaction_date,
 		count(distinct(iet.pdf_sendgrid_messageid)) as delivered_email_count,
 		COALESCE(cd.gst, cdd.gst) AS gst,
 		COALESCE(cd.discount, cdd.discount) AS discount,
 		COALESCE(cd.convenience_fee, cdd.convenience_fee) AS convenience_fee,
 		COALESCE(cd.reward_air_miles, cdd.reward_air_miles) as reward_air_miles,
-        sum(ROUND(ot.totalcost,2)) AS orders_total
+        sum(ROUND(ot.totalcost,2)) AS orders_total,
+		ROUND(sum(ROUND(ot.totalcost,2)) * COALESCE(cd.discount, cdd.discount) / 100,2) as discount_amount
 from  {{ ref('ontime_invoices_orders') }}  oi
 		left join  {{ source('arms','invoice_tracking')}} it on (oi.invoicenumber = it.invoicenumber)
 		left join {{ ref('ontime_customers') }} oc on (oc.id = oi.customerid)
@@ -31,6 +33,8 @@ group by 	oi.invoicenumber,
 			cdd.id,
 			it.qb_invoice_status, 
 			qi.total_amount, 
-			qi.balance 
+			qi.balance,
+			qi.transaction_date,
+			iet.pdf_sendgrid_messageid
 order by 
 			oi.invoicenumber
