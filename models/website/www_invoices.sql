@@ -1,6 +1,7 @@
 SELECT
     iit.invoicenumber as invoice_number,
     iit.ontime_invoice_date as invoice_date,
+    iit.ontime_invoice_date::TEXT as created_date_text,
     iit.qb_invoice_created_at as creation_date,
     iit.company as company_name,
     ROUND((iit.orders_total - iit.orders_total * iit.discount/100),2) + ROUND(ROUND((iit.orders_total - iit.orders_total * iit.discount/100),2) * iit.gst / 100,2) as ontime_total,
