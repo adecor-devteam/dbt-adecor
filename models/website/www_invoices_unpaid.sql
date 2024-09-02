@@ -1,3 +1,11 @@
+{{
+config(
+    materialized = 'materialized_view',
+	on_configuration_change="apply"
+)
+}}
+
+
 SELECT
     iit.invoicenumber as invoice_number,
     iit.ontime_invoice_date as invoice_date,

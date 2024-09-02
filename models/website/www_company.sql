@@ -8,9 +8,15 @@
 -- Discount - (customer_details)
 -- Unpaid Invoices (Total) - Total Number of Unpaid Invoices (whole number)
 -- Balance Due - (quickbooks_invoice) Sum of all unpaid invoices
-{% if env_var('DBT_FIVETRAN_RUN', 'false') == 'true' %}
-{{ config(enabled=False) }}
-{% endif %}
+
+{{
+config(
+    materialized = 'materialized_view',
+	on_configuration_change="apply"
+)
+}}
+
+
 SELECT 	oc.company as account_name,
 		cd.id as account_number,
 		COALESCE(cd.gst,cdd.gst) as gst,

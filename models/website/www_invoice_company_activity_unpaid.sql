@@ -10,6 +10,14 @@
 -- Total Owing - (quickbooks_invoice)
 -- Last Updated - This is the last time the invoice was processed so I believe you can use the qb_invoice_created_at column
 
+{{
+config(
+    materialized = 'materialized_view',
+	on_configuration_change="apply"
+)
+}}
+
+
 SELECT
 	iit.invoicenumber as invoice_number,
     iit.company as Company,

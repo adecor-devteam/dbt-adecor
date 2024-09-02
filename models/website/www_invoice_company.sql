@@ -7,6 +7,14 @@
 -- 61-90 Days - (quickbooks_invoice) If Balance > 0 & Created Date > 60 days and < 90 days
 -- Over 90 Days - (quickbooks_invoice) If Balance > 0 & Created Date > 90 days
 
+{{
+config(
+    materialized = 'materialized_view',
+	on_configuration_change="apply"
+)
+}}
+
+
 SELECT 	oc.company as company_name,
 		ROW_NUMBER() OVER (ORDER BY oc.creationdate) as account_number,
 		count(qi.doc_number) AS unpaid_invoices,
