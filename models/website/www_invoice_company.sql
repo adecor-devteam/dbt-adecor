@@ -7,13 +7,18 @@
 -- 61-90 Days - (quickbooks_invoice) If Balance > 0 & Created Date > 60 days and < 90 days
 -- Over 90 Days - (quickbooks_invoice) If Balance > 0 & Created Date > 90 days
 
-
 SELECT 	oc.company as company_name,
-		cd.id as account_number,
-		(SELECT count(qi.*) FROM quickbooks_invoice qi WHERE qi.customer_id = cd.qb_customerid and qi.balance>0) AS unpaid_invoices,
-		(SELECT count(qi.*) FROM quickbooks_invoice qi WHERE qi.customer_id = cd.qb_customerid and qi.balance>0 and EXTRACT(DAY FROM NOW() - qi.created_at ) <= 30 ) AS under_30_days,
-		(SELECT count(qi.*) FROM quickbooks_invoice qi WHERE qi.customer_id = cd.qb_customerid and qi.balance>0 and EXTRACT(DAY FROM NOW() - qi.created_at ) > 30 and EXTRACT(DAY FROM NOW() - qi.created_at ) <= 60 ) AS in_31_60_days,
-		(SELECT count(qi.*) FROM quickbooks_invoice qi WHERE qi.customer_id = cd.qb_customerid and qi.balance>0 and EXTRACT(DAY FROM NOW() - qi.created_at ) > 60 and EXTRACT(DAY FROM NOW() - qi.created_at ) <= 90 ) AS in_61_90_days,
-		(SELECT count(qi.*) FROM quickbooks_invoice qi WHERE qi.customer_id = cd.qb_customerid and qi.balance>0 and EXTRACT(DAY FROM NOW() - qi.created_at ) > 90 ) AS over_90_days
-		FROM {{ ref('ontime_customers') }} oc
-left join {{ source('arms','customer_details') }} cd on (oc.id = cd.ontime_customerid)
+		ROW_NUMBER() OVER (ORDER BY oc.creationdate) as account_number,
+		count(qi.doc_number) AS unpaid_invoices,
+		count(qi30.doc_number) as under_30_days,
+		count(qi31_60.doc_number) as in_31_60_days,
+		count(qi61_90.doc_number) as in_61_90_days,
+		count(qi90.doc_number) as over_90_days
+FROM {{ ref('ontime_customers') }} oc
+left join {{ ref('ontime_invoices') }} oi on (oi.customerid = oc.id)
+left join {{ ref('quickbooks_invoice') }} qi on ( qi.doc_number = oi.invoicenumber::TEXT and qi.balance>0)
+left join {{ ref('quickbooks_invoice') }} qi30 on ( qi30.doc_number = oi.invoicenumber::TEXT and qi30.balance>0 and EXTRACT(DAY FROM NOW() - qi30.created_at ) <= 30 )
+left join {{ ref('quickbooks_invoice') }} qi31_60 on ( qi31_60.doc_number = oi.invoicenumber::TEXT and qi31_60.balance>0 and  EXTRACT(DAY FROM NOW() - qi31_60.created_at ) > 30 and EXTRACT(DAY FROM NOW() - qi31_60.created_at ) <= 60 ) 
+left join {{ ref('quickbooks_invoice') }} qi61_90 on ( qi61_90.doc_number = oi.invoicenumber::TEXT and qi61_90.balance>0 and  EXTRACT(DAY FROM NOW() - qi61_90.created_at ) > 60 and EXTRACT(DAY FROM NOW() - qi61_90.created_at ) <= 90 )
+left join {{ ref('quickbooks_invoice') }} qi90 on ( qi90.doc_number = oi.invoicenumber::TEXT and qi90.balance>0 and EXTRACT(DAY FROM NOW() - qi90.created_at ) > 90 )
+group by oc.id, oc.company, oc.creationdate

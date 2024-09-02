@@ -20,7 +20,8 @@ SELECT 	oc.company as account_name,
 		sum(qi.balance) as balance_due
 FROM {{ ref('ontime_customers') }} oc
 left join {{ source('arms','customer_details') }} cd on (oc.id = cd.ontime_customerid)
-left join {{ ref('quickbooks_invoice') }} qi on ( qi.customer_id=cd.qb_customerid and qi.balance>0)
+left join {{ ref('ontime_invoices') }} oi on (oi.customerid = oc.id)
+left join {{ ref('quickbooks_invoice') }} qi on ( qi.doc_number = oi.invoicenumber::TEXT and qi.balance>0)
 cross join {{ source('arms','customer_details_defaults') }} cdd 
 where cdd.ontime_customerid = 'default'
-group by cd.id, oc.company, cdd.id
+group by cd.id, oc.company, cdd.id, oc.id, oi.customerid
