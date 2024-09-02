@@ -1,3 +1,7 @@
+{% if env_var('DBT_FIVETRAN_RUN', 'false') == 'true' %}
+{{ config(enabled=False) }}
+{% endif %}
+
 SELECT DISTINCT ON	(oi.invoicenumber)
 		oi.invoicenumber as invoicenumber,
         oi.invoicedate as ontime_invoice_date,
