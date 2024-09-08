@@ -58,3 +58,13 @@ CREATE INDEX idx_invoice_tracking ON invoice_tracking (qb_invoice_created_at);
 
 CREATE INDEX idx_invoice_doc_number on action_quickbooks.invoice (doc_number);
 CREATE INDEX idx_invoice_balance on action_quickbooks.invoice (balance);
+
+-- action_quickbooks.payment
+CREATE INDEX idx_payment_customer_id on action_quickbooks.payment (customer_id);
+CREATE INDEX idx_payment_payment_method_id on action_quickbooks.payment (payment_method_id);
+CREATE INDEX idx_payment_reference_number on action_quickbooks.payment (reference_number);
+
+
+-- action_quickbooks.invoice_linked_txn
+CREATE INDEX idx_invoice_linked_txn_payment_id on action_quickbooks.invoice_linked_txn (payment_id);
+

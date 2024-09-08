@@ -8,6 +8,8 @@ sources:
       - name: payment
       - name: item
       - name: customer
+      - name: invoice_linked_txn
+      - name: payment_method
 
       
 
