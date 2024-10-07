@@ -17,6 +17,10 @@ SELECT
     iit.quickbooks_total as quickbooks_total,
     iit.qb_invoice_status as processed_in_qb,
     CASE    
+        WHEN iit.quickbooks_balance > 0 THEN 'Unpaid'
+        ELSE 'Paid'
+    END AS payment_status,
+    CASE
         WHEN iit.quickbooks_balance > 0 THEN iit.days_since_creation
         ELSE 0
     END AS invoice_status,

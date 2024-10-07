@@ -22,6 +22,7 @@ config(
 
 SELECT
 	iit.invoicenumber as invoice_number,
+    iit.ontime_invoice_date as invoice_date,
     iit.company as Company,
     CASE    
         WHEN iit.quickbooks_balance > 0 THEN 'Unpaid'
