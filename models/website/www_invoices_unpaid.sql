@@ -8,6 +8,7 @@ config(
 
 SELECT
     iit.invoicenumber as invoice_number,
+    iit.quickbooks_customer_id as account_number,
     iit.ontime_invoice_date as invoice_date,
     iit.ontime_invoice_date::TEXT as created_date_text,
     iit.qb_invoice_created_at as creation_date,
