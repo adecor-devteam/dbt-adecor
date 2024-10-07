@@ -15,7 +15,8 @@ SELECT DISTINCT ON	(oi.invoicenumber)
 		COALESCE(cd.convenience_fee, cdd.convenience_fee) AS convenience_fee,
 		COALESCE(cd.reward_air_miles, cdd.reward_air_miles) as reward_air_miles,
         sum(ROUND(ot.totalcost,2)) AS orders_total,
-		ROUND(sum(ROUND(ot.totalcost,2)) * COALESCE(cd.discount, cdd.discount) / 100,2) as discount_amount
+		ROUND(sum(ROUND(ot.totalcost,2)) * COALESCE(cd.discount, cdd.discount) / 100,2) as discount_amount,
+		ROUND(sum(ROUND(ot.totalcost,2)) * (1 + COALESCE(cd.gst, cdd.gst)/100),2) as gst_amount
 from  {{ ref('ontime_invoices_orders') }}  oi
 		left join  {{ source('arms','invoice_tracking')}} it on (oi.invoicenumber = it.invoicenumber)
 		left join {{ ref('ontime_customers') }} oc on (oc.id = oi.customerid)
