@@ -21,7 +21,7 @@ sum(ROUND(qi.total_amount,2)) as total_amount,
 qp.reference_number as payment_reference,
 qp.id as qb_payment_id,
 ROUND(sc.amount,2) as stripe_amount
-FROM quickbooks_payment qp 
+FROM {{ ref('quickbooks_payment') }}  qp 
 left join {{ ref('quickbooks_customer') }} qc on (qc.id = qp.customer_id)
 left join {{ ref('quickbooks_invoice_linked_txn') }} qilt on (qilt.payment_id = qp.id) 
 left join {{ ref('quickbooks_invoice') }} qi on (qi.id = qilt.invoice_id)
