@@ -2,16 +2,23 @@ version: 2
 
 sources:
   - name: ontime
-    schema: action_ontime_dbo
+    schema: dbo
     tables:
       - name: customers
+        identifier: Customers
       - name: destinations
+        identifier: Destinations
       - name: invoices
+        identifier: Invoices
       - name: pricesets
+        identifier: PriceSets
       - name: tracking
+        identifier: Tracking
       - name: trackingmodifiers
+        identifier: TrackingModifiers
       - name: users
+        identifier: Users
       - name: vehicletype
+        identifier: VehicleType
 
       
-

@@ -1,3 +1,2 @@
-SELECT
-    *
-FROM {{ source('ontime','vehicletype')}}
+
+{{ convert_column_names(source('ontime', 'vehicletype')) }}

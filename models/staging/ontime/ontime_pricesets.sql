@@ -1,3 +1,2 @@
-SELECT
-    *
-FROM {{ source('ontime','pricesets')}}
+
+{{ convert_column_names(source('ontime', 'pricesets')) }}

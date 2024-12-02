@@ -1,3 +1,2 @@
-SELECT
-    *
-FROM {{ source('ontime','invoices')}}
+
+{{ convert_column_names(source('ontime', 'invoices')) }}
